@@ -131,10 +131,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="UnknownLegacy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="donotincludethis.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="UnknownLegacy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

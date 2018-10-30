@@ -70,40 +70,40 @@ namespace Magnum {
 
 			void addObject(Trade::AbstractImporter& importer, Containers::ArrayView<const Containers::Optional<Trade::PhongMaterialData>> materials, Object3D& parent, UnsignedInt i);
 
-			Shaders::Phong _coloredShader,
-				_texturedShader{ Shaders::Phong::Flag::DiffuseTexture };
-			Containers::Array<Containers::Optional<GL::Mesh>> _meshes;
-			Containers::Array<Containers::Optional<GL::Texture2D>> _textures;
+			Shaders::Phong m_ColoredShader,
+				m_TexturedShader{ Shaders::Phong::Flag::DiffuseTexture };
+			Containers::Array<Containers::Optional<GL::Mesh>> m_Meshes;
+			Containers::Array<Containers::Optional<GL::Texture2D>> m_Textures;
 
-			Scene3D _scene;
-			Object3D _manipulator, _cameraObject;
-			SceneGraph::Camera3D* _camera;
-			SceneGraph::DrawableGroup3D _drawables;
+			Scene3D m_Scene;
+			Object3D m_Manipulator, m_CameraObject;
+			SceneGraph::Camera3D* m_Camera;
+			SceneGraph::DrawableGroup3D m_Drawables;
 			Vector3 _previousPosition;
 		};
 
 		class ColoredDrawable : public SceneGraph::Drawable3D {
 		public:
-			explicit ColoredDrawable(Object3D& object, Shaders::Phong& shader, GL::Mesh& mesh, const Color4& color, SceneGraph::DrawableGroup3D& group) : SceneGraph::Drawable3D{ object, &group }, _shader(shader), _mesh(mesh), _color{ color } {}
+			explicit ColoredDrawable(Object3D& object, Shaders::Phong& shader, GL::Mesh& mesh, const Color4& color, SceneGraph::DrawableGroup3D& group) : SceneGraph::Drawable3D{ object, &group }, m_Shader(shader), m_Mesh(mesh), m_Color{ color } {}
 
 		private:
 			void draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D& camera) override;
 
-			Shaders::Phong& _shader;
-			GL::Mesh& _mesh;
-			Color4 _color;
+			Shaders::Phong& m_Shader;
+			GL::Mesh& m_Mesh;
+			Color4 m_Color;
 		};
 
 		class TexturedDrawable : public SceneGraph::Drawable3D {
 		public:
-			explicit TexturedDrawable(Object3D& object, Shaders::Phong& shader, GL::Mesh& mesh, GL::Texture2D& texture, SceneGraph::DrawableGroup3D& group) : SceneGraph::Drawable3D{ object, &group }, _shader(shader), _mesh(mesh), _texture(texture) {}
+			explicit TexturedDrawable(Object3D& object, Shaders::Phong& shader, GL::Mesh& mesh, GL::Texture2D& texture, SceneGraph::DrawableGroup3D& group) : SceneGraph::Drawable3D{ object, &group }, m_Shader(shader), m_Mesh(mesh), m_Texture(texture) {}
 
 		private:
 			void draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D& camera) override;
 
-			Shaders::Phong& _shader;
-			GL::Mesh& _mesh;
-			GL::Texture2D& _texture;
+			Shaders::Phong& m_Shader;
+			GL::Mesh& m_Mesh;
+			GL::Texture2D& m_Texture;
 		};
 
 		UnknownLegacy::UnknownLegacy(const Arguments& arguments) :
@@ -119,25 +119,25 @@ namespace Magnum {
 				.parse(arguments.argc, arguments.argv);
 
 			/* Every scene needs a camera */
-			_cameraObject
-				.setParent(&_scene)
+			m_CameraObject
+				.setParent(&m_Scene)
 				.translate(Vector3::zAxis(5.0f));
-			(*(_camera = new SceneGraph::Camera3D{ _cameraObject }))
+			(*(m_Camera = new SceneGraph::Camera3D{ m_CameraObject }))
 				.setAspectRatioPolicy(SceneGraph::AspectRatioPolicy::Extend)
 				.setProjectionMatrix(Matrix4::perspectiveProjection(35.0_degf, 1.0f, 0.01f, 1000.0f))
 				.setViewport(GL::defaultFramebuffer.viewport().size());
 
 			/* Base object, parent of all (for easy manipulation) */
-			_manipulator.setParent(&_scene);
+			m_Manipulator.setParent(&m_Scene);
 
 			/* Setup renderer and shader defaults */
 			GL::Renderer::enable(GL::Renderer::Feature::DepthTest);
 			GL::Renderer::enable(GL::Renderer::Feature::FaceCulling);
-			_coloredShader
+			m_ColoredShader
 				.setAmbientColor(0x111111_rgbf)
 				.setSpecularColor(0xffffff_rgbf)
 				.setShininess(80.0f);
-			_texturedShader
+			m_TexturedShader
 				.setAmbientColor(0x111111_rgbf)
 				.setSpecularColor(0x111111_rgbf)
 				.setShininess(80.0f);
@@ -154,7 +154,7 @@ namespace Magnum {
 				std::exit(4);
 
 			/* Load all textures. Textures that fail to load will be NullOpt. */
-			_textures = Containers::Array<Containers::Optional<GL::Texture2D>>{ importer->textureCount() };
+			m_Textures = Containers::Array<Containers::Optional<GL::Texture2D>>{ importer->textureCount() };
 			for (UnsignedInt i = 0; i != importer->textureCount(); ++i) {
 				Debug{} << "Importing texture" << i << importer->textureName(i);
 
@@ -187,7 +187,7 @@ namespace Magnum {
 					.setSubImage(0, {}, *imageData)
 					.generateMipmap();
 
-				_textures[i] = std::move(texture);
+				m_Textures[i] = std::move(texture);
 			}
 
 			/* Load all materials. Materials that fail to load will be NullOpt. The
@@ -207,7 +207,7 @@ namespace Magnum {
 			}
 
 			/* Load all meshes. Meshes that fail to load will be NullOpt. */
-			_meshes = Containers::Array<Containers::Optional<GL::Mesh>>{ importer->mesh3DCount() };
+			m_Meshes = Containers::Array<Containers::Optional<GL::Mesh>>{ importer->mesh3DCount() };
 			for (UnsignedInt i = 0; i != importer->mesh3DCount(); ++i) {
 				Debug{} << "Importing mesh" << i << importer->mesh3DName(i);
 
@@ -218,7 +218,7 @@ namespace Magnum {
 				}
 
 				/* Compile the mesh */
-				_meshes[i] = MeshTools::compile(*meshData);
+				m_Meshes[i] = MeshTools::compile(*meshData);
 			}
 
 			/* Load the scene */
@@ -233,13 +233,13 @@ namespace Magnum {
 
 				/* Recursively add all children */
 				for (UnsignedInt objectId : sceneData->children3D())
-					addObject(*importer, materials, _manipulator, objectId);
+					addObject(*importer, materials, m_Manipulator, objectId);
 
 				/* The format has no scene support, display just the first loaded mesh with
 				   a default material and be done with it */
 			}
-			else if (!_meshes.empty() && _meshes[0])
-				new ColoredDrawable{ _manipulator, _coloredShader, *_meshes[0], 0xffffff_rgbf, _drawables };
+			else if (!m_Meshes.empty() && m_Meshes[0])
+				new ColoredDrawable{ m_Manipulator, m_ColoredShader, *m_Meshes[0], 0xffffff_rgbf, m_Drawables };
 		}
 
 		void UnknownLegacy::addObject(Trade::AbstractImporter& importer, Containers::ArrayView<const Containers::Optional<Trade::PhongMaterialData>> materials, Object3D& parent, UnsignedInt i) {
@@ -255,27 +255,27 @@ namespace Magnum {
 			object->setTransformation(objectData->transformation());
 
 			/* Add a drawable if the object has a mesh and the mesh is loaded */
-			if (objectData->instanceType() == Trade::ObjectInstanceType3D::Mesh && objectData->instance() != -1 && _meshes[objectData->instance()]) {
+			if (objectData->instanceType() == Trade::ObjectInstanceType3D::Mesh && objectData->instance() != -1 && m_Meshes[objectData->instance()]) {
 				const Int materialId = static_cast<Trade::MeshObjectData3D*>(objectData.get())->material();
 
 				/* Material not available / not loaded, use a default material */
 				if (materialId == -1 || !materials[materialId]) {
-					new ColoredDrawable{ *object, _coloredShader, *_meshes[objectData->instance()], 0xffffff_rgbf, _drawables };
+					new ColoredDrawable{ *object, m_ColoredShader, *m_Meshes[objectData->instance()], 0xffffff_rgbf, m_Drawables };
 
 					/* Textured material. If the texture failed to load, again just use a
 					   default colored material. */
 				}
 				else if (materials[materialId]->flags() & Trade::PhongMaterialData::Flag::DiffuseTexture) {
-					Containers::Optional<GL::Texture2D>& texture = _textures[materials[materialId]->diffuseTexture()];
+					Containers::Optional<GL::Texture2D>& texture = m_Textures[materials[materialId]->diffuseTexture()];
 					if (texture)
-						new TexturedDrawable{ *object, _texturedShader, *_meshes[objectData->instance()], *texture, _drawables };
+						new TexturedDrawable{ *object, m_TexturedShader, *m_Meshes[objectData->instance()], *texture, m_Drawables };
 					else
-						new ColoredDrawable{ *object, _coloredShader, *_meshes[objectData->instance()], 0xffffff_rgbf, _drawables };
+						new ColoredDrawable{ *object, m_ColoredShader, *m_Meshes[objectData->instance()], 0xffffff_rgbf, m_Drawables };
 
 					/* Color-only material */
 				}
 				else {
-					new ColoredDrawable{ *object, _coloredShader, *_meshes[objectData->instance()], materials[materialId]->diffuseColor(), _drawables };
+					new ColoredDrawable{ *object, m_ColoredShader, *m_Meshes[objectData->instance()], materials[materialId]->diffuseColor(), m_Drawables };
 				}
 			}
 
@@ -285,38 +285,38 @@ namespace Magnum {
 		}
 
 		void ColoredDrawable::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D& camera) {
-			_shader
-				.setDiffuseColor(_color)
+			m_Shader
+				.setDiffuseColor(m_Color)
 				.setLightPosition(camera.cameraMatrix().transformPoint({ -3.0f, 10.0f, 10.0f }))
 				.setTransformationMatrix(transformationMatrix)
 				.setNormalMatrix(transformationMatrix.rotationScaling())
 				.setProjectionMatrix(camera.projectionMatrix());
 
-			_mesh.draw(_shader);
+			m_Mesh.draw(m_Shader);
 		}
 
 		void TexturedDrawable::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D& camera) {
-			_shader
+			m_Shader
 				.setLightPosition(camera.cameraMatrix().transformPoint({ -3.0f, 10.0f, 10.0f }))
 				.setTransformationMatrix(transformationMatrix)
 				.setNormalMatrix(transformationMatrix.rotationScaling())
 				.setProjectionMatrix(camera.projectionMatrix())
-				.bindDiffuseTexture(_texture);
+				.bindDiffuseTexture(m_Texture);
 
-			_mesh.draw(_shader);
+			m_Mesh.draw(m_Shader);
 		}
 
 		void UnknownLegacy::drawEvent() {
 			GL::defaultFramebuffer.clear(GL::FramebufferClear::Color | GL::FramebufferClear::Depth);
 
-			_camera->draw(_drawables);
+			m_Camera->draw(m_Drawables);
 
 			swapBuffers();
 		}
 
 		void UnknownLegacy::viewportEvent(ViewportEvent& event) {
 			GL::defaultFramebuffer.setViewport({ {}, event.framebufferSize() });
-			_camera->setViewport(event.windowSize());
+			m_Camera->setViewport(event.windowSize());
 		}
 
 		void UnknownLegacy::mousePressEvent(MouseEvent& event) {
@@ -333,17 +333,17 @@ namespace Magnum {
 			if (!event.offset().y()) return;
 
 			/* Distance to origin */
-			const Float distance = _cameraObject.transformation().translation().z();
+			const Float distance = m_CameraObject.transformation().translation().z();
 
 			/* Move 15% of the distance back or forward */
-			_cameraObject.translate(Vector3::zAxis(
+			m_CameraObject.translate(Vector3::zAxis(
 				distance*(1.0f - (event.offset().y() > 0 ? 1 / 0.85f : 0.85f))));
 
 			redraw();
 		}
 
 		Vector3 UnknownLegacy::positionOnSphere(const Vector2i& position) const {
-			const Vector2 positionNormalized = Vector2{ position } / Vector2{ _camera->viewport() } -Vector2{ 0.5f };
+			const Vector2 positionNormalized = Vector2{ position } / Vector2{ m_Camera->viewport() } -Vector2{ 0.5f };
 			const Float length = positionNormalized.length();
 			const Vector3 result(length > 1.0f ? Vector3(positionNormalized, 0.0f) : Vector3(positionNormalized, 1.0f - length));
 			return (result*Vector3::yScale(-1.0f)).normalized();
@@ -357,7 +357,7 @@ namespace Magnum {
 
 			if (_previousPosition.length() < 0.001f || axis.length() < 0.001f) return;
 
-			_manipulator.rotate(Math::angle(_previousPosition, currentPosition), axis.normalized());
+			m_Manipulator.rotate(Math::angle(_previousPosition, currentPosition), axis.normalized());
 			_previousPosition = currentPosition;
 
 			redraw();
