@@ -10,6 +10,11 @@ namespace UL {
 		m_Manipulator.rotate(r, norm);
 	}
 
+	void ulRenderer::rotateCamera(Magnum::Rad angle, const Vector3& norm) {
+		
+		m_CameraObject.rotateLocal(angle, norm);
+	}
+
 	void ulRenderer::viewportEvent(const Vector2i& frameBufferSize, const Vector2i& windowSize) {
 		GL::defaultFramebuffer.setViewport({ {}, frameBufferSize });
 		m_Camera->setViewport(windowSize);
@@ -20,6 +25,18 @@ namespace UL {
 		const Float length = positionNormalized.length();
 		const Vector3 result(length > 1.0f ? Vector3(positionNormalized, 0.0f) : Vector3(positionNormalized, 1.0f - length));
 		return (result*Vector3::yScale(-1.0f)).normalized();
+	}
+
+	void ulRenderer::smoothCameraTranslate(const Vector3& vec, const int velocity, void(*redrawFunc)(void)) {
+		for (unsigned int i(velocity); i>0; --i) {
+			m_CameraObject.translateLocal(vec);
+			redrawFunc();
+		}
+	}
+
+	void ulRenderer::translateCamera(const Vector3& vec) {
+		m_CameraObject.translateLocal(vec);
+		//m_CameraObject.translate(vec);
 	}
 
 

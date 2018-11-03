@@ -53,6 +53,13 @@ namespace UL {
 		Vector3 positionOnSphere(const Vector2i& position) const;
 		void zoom(float ratio);
 		void rotateManupulator(Magnum::Rad, const Vector3&);
+
+		void translateCamera(const Vector3&);
+		void rotateCamera(Magnum::Rad angle, const Vector3& norm);
+		void smoothCameraTranslate(const Vector3&, const int velocity, void(*redrawFunc)(void));
+
+		inline Object3D* debugCameraObject() { return &m_CameraObject; }
+
 		ulRenderer();
 
 	};
