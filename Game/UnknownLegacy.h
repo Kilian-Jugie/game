@@ -29,6 +29,7 @@ namespace UL {
 
 		UL::ulRenderer m_Renderer;
 		Vector2i m_PreviousPosition;
+		Vector3 m_Direction;
 		int velocity;
 	};
 
@@ -38,34 +39,35 @@ namespace UL {
 	}
 
 	void UnknownLegacy::tickEvent() {
-		//Debug{} << "TICK";
-	}
-
-	void UnknownLegacy::keyPressEvent(KeyEvent& event) {
-		if (velocity < 20000)
-			velocity += 2000;
-		Vector3 direction;
-		switch (event.key())
-		{
-		case KeyEvent::Key::Z: direction = { 0.f,0.f,-0.00001f };
-			break;
-		case KeyEvent::Key::S: direction = { 0.f,0.f,0.00001f };
-			break;
-		case KeyEvent::Key::Q: direction = { -0.00001f,0.f,0.f };
-			break;
-		case KeyEvent::Key::D: direction = { .00001f, 0.f, 0.f };
-			break;
-		case KeyEvent::Key::Esc: 
-			std::exit(0);
-		}
-		for (unsigned int i(velocity); i; --i) { //Camera smoothing system
-			m_Renderer.translateCamera(direction);
+		if (velocity) {
+			if (velocity < 2000)
+				velocity += 20;
+			m_Renderer.translateCamera(m_Direction*velocity);
 			redraw();
 		}
 	}
 
+	void UnknownLegacy::keyPressEvent(KeyEvent& event) {
+		switch (event.key())
+		{
+		case KeyEvent::Key::Z: m_Direction = { 0.f,0.f,-0.00001f };
+							   break;
+		case KeyEvent::Key::S: m_Direction = { 0.f,0.f,0.00001f };
+							   break;
+		case KeyEvent::Key::Q: m_Direction = { -0.00001f,0.f,0.f };
+							   break;
+		case KeyEvent::Key::D: m_Direction = { .00001f, 0.f, 0.f };
+							   break;
+		case KeyEvent::Key::Esc:
+			std::exit(0);
+		}
+		if (!velocity) {
+			velocity = 1;
+		}
+	}
+
 	void UnknownLegacy::keyReleaseEvent(KeyEvent& event) {
-		velocity = 1;
+		velocity = 0;
 	}
 
 	void UnknownLegacy::viewportEvent(ViewportEvent& event) {
