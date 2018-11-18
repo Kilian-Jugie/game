@@ -1,5 +1,6 @@
 #pragma once
 #include "Renderer.h"
+#include "RessourceManager.h"
 
 namespace UL {
 
@@ -24,8 +25,15 @@ namespace UL {
 
 		Vector3 positionOnSphere(const Vector2i& position) const;
 
-		void normalizeVector(Vector3& v); //To move !!!
-		template<typename T>int vectorDotProduct(const Magnum::Math::Vector2<T>& v1, const Magnum::Math::Vector2<T>& v2);
+		template<typename T>int vectorDotProduct(const Magnum::Math::Vector2<T>& v1, const Magnum::Math::Vector2<T>& v2);//To move !!!
+
+		void testDebug() {
+			Info{} << "WARNING ! THIS IS A DEVELOPPEMENT VERSION !!!\n";
+
+			RessourceFile f;
+			f.parseFileName("C:\\elfichier.obj");
+			system("pause");
+		}
 
 		UL::ulRenderer m_Renderer;
 		Vector2i m_PreviousPosition;
@@ -76,7 +84,7 @@ namespace UL {
 
 	void UnknownLegacy::mousePressEvent(MouseEvent& event) {
 		if (event.button() == MouseEvent::Button::Left)
-			m_PreviousPosition = event.position();// positionOnSphere(event.position());
+			m_PreviousPosition = event.position();
 	}
 
 	void UnknownLegacy::mouseReleaseEvent(MouseEvent& event) {
@@ -92,12 +100,6 @@ namespace UL {
 
 	Vector3 UnknownLegacy::positionOnSphere(const Vector2i& position) const {
 		return m_Renderer.positionOnSphere(position);
-	}
-
-	void UnknownLegacy::normalizeVector(Vector3& v) {
-		v.x() = v.x() / v.length();
-		v.y() = v.y() / v.length();
-		v.z() = v.z() / v.length();
 	}
 
 	template<typename T>

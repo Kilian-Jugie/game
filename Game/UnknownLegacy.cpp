@@ -5,6 +5,10 @@ namespace  UL {
 			.setTitle("Putain c'est trop simple")
 			.setWindowFlags(Configuration::WindowFlag::Resizable) }
 	{
+		testDebug();
+
+		std::exit(0);
+
 		Utility::Arguments args;
 		args.addArgument("file").setHelp("file", "file to load")
 			.addOption("importer", "AnySceneImporter").setHelp("importer", "importer plugin to use")
@@ -26,3 +30,4 @@ namespace  UL {
 }
 
 MAGNUM_APPLICATION_MAIN(UL::UnknownLegacy)
+

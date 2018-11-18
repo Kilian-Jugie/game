@@ -79,10 +79,14 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FloatingPointModel>Precise</FloatingPointModel>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\C++\kTools\kTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;ktoolsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>A:\Program Files\VcPKG\packages\openal-soft_x86-windows\lib;A:\Program Files\VcPKG\packages\glfw3_x86-windows\lib;A:\Program Files\VcPKG\packages\freeglut_x86-windows\lib;A:\Program Files\VcPKG\packages\corrade_x86-windows\lib;A:\Program Files\VcPKG\packages\sdl2_x86-windows\lib;A:\Program Files\VcPKG\packages\magnum_x86-windows\lib;A:\Program Files\VcPKG\installed\x86-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceFileOutput>Enabled</ForceFileOutput>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -93,10 +97,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\C++\kTools\kTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;ktoolsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>A:\Program Files\VcPKG\packages\openal-soft_x86-windows\lib;A:\Program Files\VcPKG\packages\glfw3_x86-windows\lib;A:\Program Files\VcPKG\packages\freeglut_x86-windows\lib;A:\Program Files\VcPKG\packages\corrade_x86-windows\lib;A:\Program Files\VcPKG\packages\sdl2_x86-windows\lib;A:\Program Files\VcPKG\packages\magnum_x86-windows\lib;A:\Program Files\VcPKG\installed\x86-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceFileOutput>Enabled</ForceFileOutput>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,12 +118,16 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <FloatingPointModel>Precise</FloatingPointModel>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\C++\kTools\kTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;ktools.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>A:\Program Files\VcPKG\packages\openal-soft_x86-windows\lib;A:\Program Files\VcPKG\packages\glfw3_x86-windows\lib;A:\Program Files\VcPKG\packages\freeglut_x86-windows\lib;A:\Program Files\VcPKG\packages\corrade_x86-windows\lib;A:\Program Files\VcPKG\packages\sdl2_x86-windows\lib;A:\Program Files\VcPKG\packages\magnum_x86-windows\lib;A:\Program Files\VcPKG\installed\x86-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceFileOutput>Enabled</ForceFileOutput>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,21 +140,32 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableSpecificWarnings>4251;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>A:\C++\kTools\kTools;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;ktools.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>A:\Program Files\VcPKG\packages\openal-soft_x86-windows\lib;A:\Program Files\VcPKG\packages\glfw3_x86-windows\lib;A:\Program Files\VcPKG\packages\freeglut_x86-windows\lib;A:\Program Files\VcPKG\packages\corrade_x86-windows\lib;A:\Program Files\VcPKG\packages\sdl2_x86-windows\lib;A:\Program Files\VcPKG\packages\magnum_x86-windows\lib;A:\Program Files\VcPKG\installed\x86-windows\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ForceFileOutput>Enabled</ForceFileOutput>
+      <ShowProgress>NotSet</ShowProgress>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="UnknownLegacy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Defines.h" />
     <ClInclude Include="donotincludethis.h" />
+    <ClInclude Include="Error.h" />
+    <ClInclude Include="logger.h" />
+    <ClInclude Include="ocString.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RessourceFile.h" />
+    <ClInclude Include="RessourceManager.h" />
     <ClInclude Include="UnknownLegacy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

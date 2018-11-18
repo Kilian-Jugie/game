@@ -224,6 +224,7 @@ namespace UL {
 	}
 
 	void TexturedDrawable::draw(const Matrix4& transformationMatrix, SceneGraph::Camera3D& camera) {
+
 		m_Shader
 			.setLightPosition(camera.cameraMatrix().transformPoint({ -3.0f, 10.0f, 10.0f }))
 			.setTransformationMatrix(transformationMatrix)
