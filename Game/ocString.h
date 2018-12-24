@@ -63,7 +63,7 @@ namespace OC {
 			return _Ty(m_String.begin(), m_String.end());
 		}
 
-		ocString& replace(ocString, ocString);
+		//ocString& replace(ocString, ocString);
 		ocString& replace(ocStr_t base, ocStr_t by) {
 			
 			m_String.replace(m_String.find(base), m_String.find(base) + base.size(), by);

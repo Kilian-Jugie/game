@@ -1,29 +1,33 @@
 #include "logger.h"
+#include "Tools.h"
 
 namespace UL {
 
-	int UL::LoggerParent::safeput(const string_t &t) {
+	void UL::LoggerParent::init() const {
+		ofstream_t of(m_File, std::ios_base::trunc);
+		of.close();
+	}
+
+	int UL::LoggerParent::safeput(string_t t, bool print=true) const {
 		string_t toDisp(t), time;
 		toDisp.reserve(12 + m_Prefix.size() + t.size()); //Minimum possible size
-		ofstream_t of(m_File);
+		ofstream_t of(m_File, std::ios_base::app);
 		if (!of.is_open()) {
 			std::cerr << "ERROR: cannot open log file '" << m_File << "'\n";
 			return 1;
 		}
-		if (lastEndl) {
-			std::time_t t(std::time(0));
-			std::tm* n(std::localtime(&t));
+		
+			std::time_t ttime(std::time(0));
+			std::tm* n(std::localtime(&ttime));
 			time = "[" + std::to_string(n->tm_hour) + ":" + std::to_string(n->tm_min) +":" + std::to_string(n->tm_sec) + "]";
 			time += {"[" + m_Prefix + "] "};
-			lastEndl = false;
-		}
-		if (toDisp[toDisp.size() - 1] == '\n') lastEndl = true;
-		//Tools::replaceAll(toDisp, '\n', time);
-		
-		//toDisp.replace(rep.begin(), rep.end(), time.c_str());
-		std::cout << t;
-		of << t;
 
+		Tools::insertAfterAll(toDisp, '\n', time);
+
+		if(print)
+			std::cout << toDisp;
+		of << toDisp;
+		of.flush();
 		of.close();
 		return 0;
 	}

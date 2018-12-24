@@ -1,6 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "RessourceManager.h"
+#include "Error.h"
 
 namespace UL {
 
@@ -28,11 +29,23 @@ namespace UL {
 		template<typename T>int vectorDotProduct(const Magnum::Math::Vector2<T>& v1, const Magnum::Math::Vector2<T>& v2);//To move !!!
 
 		void testDebug() {
+			Info{}.getLogger().init();
 			Info{} << "WARNING ! THIS IS A DEVELOPPEMENT VERSION !!!\n";
 
-			RessourceFile f;
-			f.parseFileName("C:\\elfichier.obj");
+			RessourceManager m(std::filesystem::current_path().generic_string());
+			m.addCorrespondance(RessourceManager::TEXTURE, "textures");
+			m.addCorrespondance(RessourceManager::MODEL, "models");
+
+			RessourceFile rf(m.getRessource(RessourceManager::TEXTURE, "lol"));
+
+			Debug{} << rf.getFilename() << rf.getFolder() << "\n";
+			
+
 			system("pause");
+		}
+
+		void initLog() {
+			
 		}
 
 		UL::ulRenderer m_Renderer;

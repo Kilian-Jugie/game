@@ -22,3 +22,7 @@ using fstring_t = std::string;
 using ofstream_t = std::basic_ofstream<char_t>;
 using ifstream_t = std::basic_ifstream<char_t>;
 
+#include <vector>
+template<typename _Ty>using vector_t = std::vector<_Ty>;
+
+template<typename _F, typename _S>using pair_t = std::pair<_F, _S>;

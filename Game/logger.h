@@ -13,13 +13,17 @@ namespace UL {
 		string_t m_Prefix, m_File, m_Division;
 		bool lastEndl;
 
-		int safeput(const string_t&);
+	protected:
+		int safeput(string_t, bool) const;
+		
 
 		public:
-		LoggerParent(string_t file, string_t prefix, string_t division) : m_File(file), m_Prefix(prefix), m_Division(division), lastEndl(true) {}
+		void init() const;
 
-		inline LoggerParent& operator<<(const string_t& v) {
-			safeput(v);
+		LoggerParent(const string_t& file, const string_t& prefix, const string_t& division) : m_File(file), m_Prefix(prefix), m_Division(division), lastEndl(true) {}
+
+		virtual inline const LoggerParent& operator<<(const string_t& v) const {
+			safeput(v, true);
 			return *this;
 		}
 	};
@@ -41,5 +45,16 @@ namespace UL {
 	public:
 		LogInfo(string_t file, string_t div = "") : LoggerParent(file, "INFO", div) {}
 
+	};
+
+	class LogInFileInfo : public LoggerParent {
+
+	public:
+		LogInFileInfo(string_t file, string_t div="") : LoggerParent(file, "INFO", div) {}
+
+		const LoggerParent& operator<<(const string_t& v) const final override {
+			safeput(v, false);
+			return *this;
+		}
 	};
 }

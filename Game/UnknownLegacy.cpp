@@ -5,9 +5,9 @@ namespace  UL {
 			.setTitle("Putain c'est trop simple")
 			.setWindowFlags(Configuration::WindowFlag::Resizable) }
 	{
-		testDebug();
+		//testDebug();
 
-		std::exit(0);
+		//std::exit(0);
 
 		Utility::Arguments args;
 		args.addArgument("file").setHelp("file", "file to load")
@@ -23,6 +23,8 @@ namespace  UL {
 		std::unique_ptr<Trade::AbstractImporter> importer = manager.loadAndInstantiate(args.value("importer"));
 		if (!importer) std::exit(1);
 
+		Info{}.getLogger().init();
+
 		Debug{} << "Opening file" << args.value("file");
 
 		m_Renderer.loadFile(importer.get(), args.value("file"));
@@ -30,4 +32,3 @@ namespace  UL {
 }
 
 MAGNUM_APPLICATION_MAIN(UL::UnknownLegacy)
-

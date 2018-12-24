@@ -153,11 +153,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Error.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="UnknownLegacy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cnl.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="donotincludethis.h" />
     <ClInclude Include="Error.h" />
@@ -166,6 +168,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="RessourceFile.h" />
     <ClInclude Include="RessourceManager.h" />
+    <ClInclude Include="Tools.h" />
     <ClInclude Include="UnknownLegacy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

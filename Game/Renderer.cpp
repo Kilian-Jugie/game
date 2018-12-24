@@ -190,8 +190,7 @@ namespace UL {
 			if (materialId == -1 || !materials[materialId]) {
 				new ColoredDrawable{ *object, m_ColoredShader, *m_Meshes[objectData->instance()], 0xffffff_rgbf, m_Drawables };
 
-				/* Textured material. If the texture failed to load, again just use a
-				   default colored material. */
+				/* Textured material */
 			}
 			else if (materials[materialId]->flags() & Trade::PhongMaterialData::Flag::DiffuseTexture) {
 				Containers::Optional<GL::Texture2D>& texture = m_Textures[materials[materialId]->diffuseTexture()];
